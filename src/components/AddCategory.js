@@ -1,13 +1,13 @@
 import React, {useState} from 'react'
+import PropTypes from 'prop-types'
 
-export const AddCategory = () => {
+export const AddCategory = ({setCategories}) => {
 
   //agregando estado para el input para la busqueda
-  const [inputValue, setInputValue] = useState('Hola Mundo')
+  const [inputValue, setInputValue] = useState('')
 
   //handler para manejar el evento del input
   const handleInputChange = (e) => {
-    console.log(e.target.value)
     setInputValue(e.target.value)
   }
 
@@ -15,7 +15,11 @@ export const AddCategory = () => {
   //previniendo el comportamiento por defecto
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log('submit')
+
+    if(inputValue.trim().length > 2) {
+      setCategories(cats => [...cats, inputValue])
+      setInputValue('')
+    }
   }
 
   return (
@@ -27,4 +31,9 @@ export const AddCategory = () => {
       />
     </form>
   )
+}
+
+//Agregando proptypes para hacer requerido el setCategories
+AddCategory.propTypes = {
+  setCategories: PropTypes.func.isRequired
 }
